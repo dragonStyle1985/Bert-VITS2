@@ -43,11 +43,13 @@ torch.backends.cudnn.allow_tf32 = (
     True  # If encountered training problem,please try to disable TF32.
 )
 torch.set_float32_matmul_precision("medium")
-torch.backends.cuda.sdp_kernel("flash")
-torch.backends.cuda.enable_flash_sdp(True)
-torch.backends.cuda.enable_mem_efficient_sdp(
-    True
-)  # Not available if torch version is lower than 2.0
+
+# Not available if torch version is lower than 2.0
+# torch.backends.cuda.sdp_kernel("flash")
+# torch.backends.cuda.enable_flash_sdp(True)
+# torch.backends.cuda.enable_mem_efficient_sdp(
+#     True
+# )
 global_step = 0
 
 

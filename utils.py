@@ -253,7 +253,7 @@ def get_hparams(init=True):
         os.makedirs(model_dir)
 
     config_path = args.config
-    config_save_path = os.path.join(model_dir, "config.json")
+    config_save_path = os.path.join(model_dir, "configs/config.json")
     if init:
         with open(config_path, "r", encoding="utf-8") as f:
             data = f.read()
@@ -318,7 +318,7 @@ def clean_checkpoints(path_to_models="logs/44k/", n_ckpts_to_keep=2, sort_by_tim
 
 
 def get_hparams_from_dir(model_dir):
-    config_save_path = os.path.join(model_dir, "config.json")
+    config_save_path = os.path.join(model_dir, "configs/config.json")
     with open(config_save_path, "r", encoding="utf-8") as f:
         data = f.read()
     config = json.loads(data)

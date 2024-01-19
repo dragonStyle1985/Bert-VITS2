@@ -11,7 +11,7 @@ def get_path(data_dir):
     lbl_path = os.path.join(start_path, "esd.list")
     train_path = os.path.join(start_path, "train.list")
     val_path = os.path.join(start_path, "val.list")
-    config_path = os.path.join(start_path, "configs", "config.json")
+    config_path = os.path.join(start_path, "configs", "configs/config.json")
     return start_path, lbl_path, train_path, val_path, config_path
 
 

@@ -469,8 +469,8 @@ if __name__ == "__main__":
         )
         if config_path is None:
             model_dir = os.path.dirname(model_path)
-            if os.path.isfile(os.path.join(model_dir, "config.json")):
-                config_path = os.path.join(model_dir, "config.json")
+            if os.path.isfile(os.path.join(model_dir, "configs/config.json")):
+                config_path = os.path.join(model_dir, "configs/config.json")
             elif os.path.isfile(os.path.join(model_dir, "../config.json")):
                 config_path = os.path.join(model_dir, "../config.json")
             else:
