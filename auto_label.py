@@ -5,7 +5,7 @@ from scipy.io import wavfile
 import numpy as np
 import whisper
 
-a = "zxn"  # 请在这里修改说话人的名字，目前只支持中文语音,将音频放在data/xxx下
+a = "田豫龙"  # 请在这里修改说话人的名字，目前只支持中文语音,将音频放在“data/人名”下
 
 
 def split_long_audio(model, filepaths, save_dir="data_dir", out_sr=44100):
@@ -73,5 +73,6 @@ if __name__ == '__main__':
     filepaths = [os.path.join(audio_path, i) for i in file_list_sorted]
     for file_idx, filepath in enumerate(filepaths):  # 循环使用whisper遍历每一个音频,写入.lab
         text = transcribe_one(filepath)
-        with open(f"./raw/{a}/{a}_{file_idx}.lab", 'w') as f:
+        with open(f"./raw/{a}/{a}_{file_idx}.lab", 'w', encoding='utf-8') as f:
             f.write(text)
+

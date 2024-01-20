@@ -25,6 +25,9 @@ from config import config
 from tools.translate import translate
 import librosa
 
+import matplotlib
+matplotlib.use('TkAgg')
+
 net_g = None
 
 device = config.webui_config.device
