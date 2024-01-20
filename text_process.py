@@ -11,7 +11,8 @@ def process():
         files = os.listdir(path)
         for f in files:
             if f.endswith(".lab"):
-                with open(os.path.join(path, f), 'r', encoding="utf-8") as perFile:
+                # with open(os.path.join(path, f), 'r', encoding="utf-8") as perFile:
+                with open(os.path.join(path, f), 'r', encoding="gbk") as perFile:
                     line = perFile.readline()
                     result = f"./dataset/{ch_name}/{f.split('.')[0]}.wav|{ch_name}|{ch_language}|{line}"
                     wf.write(f"{result}\n")

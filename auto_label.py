@@ -12,7 +12,7 @@ def split_long_audio(model, filepaths, save_dir="data_dir", out_sr=44100):
     files = os.listdir(filepaths)
     filepaths = [os.path.join(filepaths, i) for i in files]
 
-    i = 0
+    wav_index = 0
     for file_idx, filepath in enumerate(filepaths):
 
         save_path = Path(save_dir)
@@ -34,8 +34,8 @@ def split_long_audio(model, filepaths, save_dir="data_dir", out_sr=44100):
             start_time = seg['start']
             end_time = seg['end']
             wav_seg = wav2[int(start_time * out_sr):int(end_time * out_sr)]
-            wav_seg_name = f"{a}_{i}.wav"  # 修改名字
-            i += 1
+            wav_seg_name = f"{a}_{wav_index}.wav"  # 修改名字
+            wav_index += 1
             out_fpath = save_path / wav_seg_name
             wavfile.write(out_fpath, rate=out_sr, data=(wav_seg * np.iinfo(np.int16).max).astype(np.int16))
 
@@ -64,14 +64,14 @@ if __name__ == '__main__':
     model = whisper.load_model(whisper_size)
     audio_path = f"./raw/{a}"
     if os.path.exists(audio_path):
-        for filename in os.listdir(audio_path):  # 删除原来的音频和文本
+        for filename in os.listdir(audio_path):  # 删除raw目录下原来的音频和文本
             file_path = os.path.join(audio_path, filename)
             os.remove(file_path)
     split_long_audio(model, f"data/{a}", f"./raw/{a}")
     files = os.listdir(audio_path)
     file_list_sorted = sorted(files, key=lambda x: int(os.path.splitext(x)[0].split('_')[1]))
     filepaths = [os.path.join(audio_path, i) for i in file_list_sorted]
-    for file_idx, filepath in enumerate(filepaths):  # 循环使用whisper遍历每一个音频,写入.alb
+    for file_idx, filepath in enumerate(filepaths):  # 循环使用whisper遍历每一个音频,写入.lab
         text = transcribe_one(filepath)
         with open(f"./raw/{a}/{a}_{file_idx}.lab", 'w') as f:
             f.write(text)
