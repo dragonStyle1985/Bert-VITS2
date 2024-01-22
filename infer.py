@@ -385,12 +385,14 @@ def infer_multilang(
         phones.append(temp_phones)
         tones.append(temp_tones)
         lang_ids.append(temp_lang_ids)
-    bert = torch.concatenate(bert, dim=1)
-    ja_bert = torch.concatenate(ja_bert, dim=1)
-    en_bert = torch.concatenate(en_bert, dim=1)
-    phones = torch.concatenate(phones, dim=0)
-    tones = torch.concatenate(tones, dim=0)
-    lang_ids = torch.concatenate(lang_ids, dim=0)
+
+    bert = torch.cat(bert, dim=1)
+    ja_bert = torch.cat(ja_bert, dim=1)
+    en_bert = torch.cat(en_bert, dim=1)
+    phones = torch.cat(phones, dim=0)
+    tones = torch.cat(tones, dim=0)
+    lang_ids = torch.cat(lang_ids, dim=0)
+
     with torch.no_grad():
         x_tst = phones.to(device).unsqueeze(0)
         tones = tones.to(device).unsqueeze(0)

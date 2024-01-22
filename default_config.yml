@@ -38,7 +38,7 @@ preprocess_text:
   config_path: "configs/config.json"
   # 每个语言的验证集条数
   val_per_lang: 4
-  # 验证集最大条数，多于的会被截断并放到训练集中
+  # 验证集最大条数，多余的会被截断并放到训练集中
   max_val_total: 12
   # 是否进行数据清洗
   clean: true
