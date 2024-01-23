@@ -1,6 +1,7 @@
 import os
 
-folder_name = '田豫龙-红军不怕远征难'
+author = '田豫龙'
+folder_name = f'{author}-红军不怕远征难'
 out_file = f"filelists/{folder_name}.list"
 
 
@@ -14,7 +15,7 @@ def process():
             if f.endswith(".lab"):
                 with open(os.path.join(path, f), 'r', encoding="utf-8") as perFile:
                     line = perFile.readline()
-                    result = f"./dataset/{folder_name}/{f.split('.')[0]}.wav|{folder_name}|{ch_language}|{line}"
+                    result = f"./dataset/{author}/{f.split('.')[0]}.wav|{author}|{ch_language}|{line}"
                     wf.write(f"{result}\n")
 
 
