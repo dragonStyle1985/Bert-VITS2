@@ -1,11 +1,15 @@
-import os
-from pathlib import Path
 import librosa
-from scipy.io import wavfile
-import numpy as np
+import opencc
+import os
 import whisper
 
-a = "田豫龙"  # 请在这里修改说话人的名字，目前只支持中文语音,将音频放在“data/人名”下
+import numpy as np
+
+from pathlib import Path
+from scipy.io import wavfile
+
+
+a = "田豫龙-红军不怕远征难"  # 请在这里修改说话人的名字，将音频放在“data/人名”下
 
 
 def split_long_audio(model, filepaths, save_dir="data_dir", out_sr=44100):
@@ -40,7 +44,7 @@ def split_long_audio(model, filepaths, save_dir="data_dir", out_sr=44100):
             wavfile.write(out_fpath, rate=out_sr, data=(wav_seg * np.iinfo(np.int16).max).astype(np.int16))
 
 
-def transcribe_one(audio_path):  # 使用whisper语音识别
+def transcribe_one(audio_path, converter):  # 使用whisper语音识别
     # load audio and pad/trim it to fit 30 seconds
     audio = whisper.load_audio(audio_path)
     audio = whisper.pad_or_trim(audio)
@@ -53,10 +57,10 @@ def transcribe_one(audio_path):  # 使用whisper语音识别
     # decode the audio
     options = whisper.DecodingOptions(beam_size=5)
     result = whisper.decode(model, mel, options)
-
+    simplified_text = converter.convert(result.text)
     # print the recognized text
-    print(result.text)
-    return result.text
+    print(simplified_text)
+    return simplified_text
 
 
 if __name__ == '__main__':
@@ -71,8 +75,11 @@ if __name__ == '__main__':
     files = os.listdir(audio_path)
     file_list_sorted = sorted(files, key=lambda x: int(os.path.splitext(x)[0].split('_')[1]))
     filepaths = [os.path.join(audio_path, i) for i in file_list_sorted]
+
+    # Convert the recognized text from traditional Chinese to simplified Chinese
+    converter = opencc.OpenCC('t2s')  # 使用简繁体转换配置文件
     for file_idx, filepath in enumerate(filepaths):  # 循环使用whisper遍历每一个音频,写入.lab
-        text = transcribe_one(filepath)
+        text = transcribe_one(filepath, converter)
         with open(f"./raw/{a}/{a}_{file_idx}.lab", 'w', encoding='utf-8') as f:
             f.write(text)
 
