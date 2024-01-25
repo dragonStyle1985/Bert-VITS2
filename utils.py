@@ -225,8 +225,11 @@ def plot_alignment_to_numpy(alignment, info=None):
 
 
 def load_wav_to_torch(full_path):
-    sampling_rate, data = read(full_path)
-    return torch.FloatTensor(data.astype(np.float32)), sampling_rate
+    try:
+        sampling_rate, data = read(full_path)
+        return torch.FloatTensor(data.astype(np.float32)), sampling_rate
+    except:
+        raise ValueError(f"File {full_path} not understood")
 
 
 def load_filepaths_and_text(filename, split="|"):

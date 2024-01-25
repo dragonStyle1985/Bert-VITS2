@@ -1,7 +1,8 @@
 import os
 
+# auto_label.py执行万后执行这个
 author = '田豫龙'
-folder_name = f'{author}-红军不怕远征难'
+folder_name = f'{author}-PPT'
 out_file = f"filelists/{folder_name}.list"
 
 
