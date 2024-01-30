@@ -10,7 +10,7 @@ from pathlib import Path
 from scipy.io import wavfile
 from shutil import copyfile
 
-a = "田豫龙-PPT"  # 请在这里修改说话人的名字，将音频放在“data/人名”下
+a = "田豫龙-消费电子2024"  # 请在这里修改说话人的名字，将音频放在“data/人名”下
 
 
 def process_and_save_wav(wav2, start_time, end_time, a, wav_index, save_path, out_sr):
@@ -108,12 +108,12 @@ def transcribe_one(audio_path, converter):  # 使用whisper语音识别
 if __name__ == '__main__':
     whisper_size = "medium"
     model = whisper.load_model(whisper_size)
-    audio_path = f"./raw/{a}"
+    audio_path = f"../raw/{a}"
     if os.path.exists(audio_path):
         for filename in os.listdir(audio_path):  # 删除raw目录下原来的音频和文本
             file_path = os.path.join(audio_path, filename)
             os.remove(file_path)
-    split_long_audio(model, f"data/{a}", f"./raw/{a}", split=False)
+    split_long_audio(model, f"../data/{a}", f"../raw/{a}", split=False)
     # convert_and_copy_audio_files(f"data/{a}", f"./raw/{a}")  # 这种方法得到的wav在后期无法生成对应的spec文件，具体原因还未查明。spec文件似乎是运行train_ms.py后生成的。
     files = os.listdir(audio_path)
     file_list_sorted = sorted(files, key=lambda x: int(os.path.splitext(x)[0].split('_')[1]))
@@ -123,5 +123,5 @@ if __name__ == '__main__':
     converter = opencc.OpenCC('t2s')  # 使用简繁体转换配置文件
     for file_idx, filepath in enumerate(filepaths):  # 循环使用whisper遍历每一个音频,写入.lab
         text = transcribe_one(filepath, converter)
-        with open(f"./raw/{a}/{a}_{file_idx}.lab", 'w', encoding='utf-8') as f:
+        with open(f"../raw/{a}/{a}_{file_idx}.lab", 'w', encoding='utf-8') as f:
             f.write(text)

@@ -2,14 +2,14 @@ import os
 
 # auto_label.py执行万后执行这个
 author = '田豫龙'
-folder_name = f'{author}-PPT'
-out_file = f"filelists/{folder_name}.list"
+folder_name = f'{author}-消费电子2024'
+out_file = f"../filelists/{folder_name}.list"
 
 
 def process():
     with open(out_file, 'w', encoding="Utf-8") as wf:
         ch_language = 'ZH'  # ZH, EN
-        path = f"./raw/{folder_name}"
+        path = f"../raw/{folder_name}"
         files = os.listdir(path)
         sorted_files = sorted(files, key=lambda x: int(''.join(filter(str.isdigit, x))))
         for f in sorted_files:
