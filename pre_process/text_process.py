@@ -2,7 +2,7 @@ import os
 
 # auto_label.py执行万后执行这个
 author = '田豫龙'
-folder_name = f'{author}-消费电子2024'
+folder_name = f'{author}-20240211'
 out_file = f"../filelists/{folder_name}.list"
 
 

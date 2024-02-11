@@ -10,7 +10,7 @@ from pathlib import Path
 from scipy.io import wavfile
 from shutil import copyfile
 
-a = "田豫龙-消费电子2024"  # 请在这里修改说话人的名字，将音频放在“data/人名”下
+a = "田豫龙-20240211"  # 请在这里修改说话人的名字，将音频放在“data/人名”下
 
 
 def process_and_save_wav(wav2, start_time, end_time, a, wav_index, save_path, out_sr):
@@ -31,9 +31,8 @@ def split_long_audio(model, filepaths, save_dir="data_dir", out_sr=44100, split=
 
         save_path = Path(save_dir)
         save_path.mkdir(exist_ok=True, parents=True)
-
         wav, sr = librosa.load(filepath, sr=None, offset=0, mono=True)
-        wav, _ = librosa.effects.trim(wav, top_db=20)
+        wav, _ = librosa.effects.trim(wav, top_db=10)
         peak = np.abs(wav).max()
         if peak > 1.0:
             wav = 0.98 * wav / peak
@@ -47,11 +46,6 @@ def split_long_audio(model, filepaths, save_dir="data_dir", out_sr=44100, split=
             for i, seg in enumerate(segments):
                 start_time = seg['start']
                 end_time = seg['end']
-                # wav_seg = wav2[int(start_time * out_sr):int(end_time * out_sr)]
-                # wav_seg_name = f"{a}_{wav_index}.wav"  # 修改名字
-                # wav_index += 1
-                # out_fpath = save_path / wav_seg_name
-                # wavfile.write(out_fpath, rate=out_sr, data=(wav_seg * np.iinfo(np.int16).max).astype(np.int16))
                 wav_index = process_and_save_wav(wav2, start_time, end_time, a, wav_index, save_path, out_sr)
         else:
             start_time = 0  # 设置start_time为0，以获取整个片段

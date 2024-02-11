@@ -305,9 +305,10 @@ def clean_checkpoints(path_to_models="logs/44k/", n_ckpts_to_keep=2, sort_by_tim
     to_del = [
         os.path.join(path_to_models, fn)
         for fn in (
-            x_sorted("G")[:-n_ckpts_to_keep]
-            + x_sorted("D")[:-n_ckpts_to_keep]
-            + x_sorted("WD")[:-n_ckpts_to_keep]
+                x_sorted("G")[:-n_ckpts_to_keep]
+                + x_sorted("DUR")[:-n_ckpts_to_keep]
+                + x_sorted("D_")[:-n_ckpts_to_keep]
+                + x_sorted("WD")[:-n_ckpts_to_keep]
         )
     ]
 
