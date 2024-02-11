@@ -32,7 +32,7 @@ def split_long_audio(model, filepaths, save_dir="data_dir", out_sr=44100, split=
         save_path = Path(save_dir)
         save_path.mkdir(exist_ok=True, parents=True)
         wav, sr = librosa.load(filepath, sr=None, offset=0, mono=True)
-        wav, _ = librosa.effects.trim(wav, top_db=10)
+        # wav, _ = librosa.effects.trim(wav, top_db=2)
         peak = np.abs(wav).max()
         if peak > 1.0:
             wav = 0.98 * wav / peak
