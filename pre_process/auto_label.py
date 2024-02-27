@@ -10,7 +10,7 @@ from pathlib import Path
 from scipy.io import wavfile
 from shutil import copyfile
 
-a = "田豫龙-20240211"  # 请在这里修改说话人的名字，将音频放在“data/人名”下
+a = "田豫龙-20240223"  # 请在这里修改说话人的名字，将音频放在“data/人名”下
 
 
 def process_and_save_wav(wav2, start_time, end_time, a, wav_index, save_path, out_sr):
@@ -80,12 +80,12 @@ def convert_and_copy_audio_files(filepaths, save_dir="data_dir"):
         print(f"Converting and copying file {file_idx}: '{filepath}' to '{dest_file}'")
 
 
-def transcribe_one(audio_path, converter):  # 使用whisper语音识别
+def transcribe_one(audio_path, converter, n_mels):  # 使用whisper语音识别
     # load audio and pad/trim it to fit 30 seconds
     audio = whisper.load_audio(audio_path)
     audio = whisper.pad_or_trim(audio)
     # make log-Mel spectrogram and move to the same device as the model
-    mel = whisper.log_mel_spectrogram(audio).to(model.device)
+    mel = whisper.log_mel_spectrogram(audio, n_mels=n_mels).to(model.device)
     # detect the spoken language
     _, probs = model.detect_language(mel)
     print(f"Detected language: {max(probs, key=probs.get)}")
@@ -100,7 +100,12 @@ def transcribe_one(audio_path, converter):  # 使用whisper语音识别
 
 
 if __name__ == '__main__':
-    whisper_size = "medium"
+    # https://gitcode.com/openai/whisper/overview?utm_source=csdn_github_accelerator&isLogin=1
+    whisper_size = "medium"  # medium, large, large-v3
+    if whisper_size == 'large' or 'large-v3':
+        n_mels = 128
+    else:
+        n_mels = 80
     model = whisper.load_model(whisper_size)
     audio_path = f"../raw/{a}"
     if os.path.exists(audio_path):
@@ -116,6 +121,6 @@ if __name__ == '__main__':
     # Convert the recognized text from traditional Chinese to simplified Chinese
     converter = opencc.OpenCC('t2s')  # 使用简繁体转换配置文件
     for file_idx, filepath in enumerate(filepaths):  # 循环使用whisper遍历每一个音频,写入.lab
-        text = transcribe_one(filepath, converter)
+        text = transcribe_one(filepath, converter, n_mels)
         with open(f"../raw/{a}/{a}_{file_idx}.lab", 'w', encoding='utf-8') as f:
             f.write(text)
